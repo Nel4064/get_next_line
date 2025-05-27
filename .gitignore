@@ -1,0 +1,5 @@
+# Fichiers objets, if any
+*.o
+
+# Config. VSCode, if any
+.vscode/
