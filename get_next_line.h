@@ -6,7 +6,7 @@
 /*   By: neandrie <neandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:09:53 by neandrie          #+#    #+#             */
-/*   Updated: 2025/05/27 17:57:37 by neandrie         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:11:29 by neandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,19 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
+# endif
+
+#define GNL_OK 1
+#define GNL_EOF 0
+#define GNL_ERR -1
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(char *s);
-char	*ft_strcpy(char *dest, const char *src)
+size_t	ft_strlen(const char *s);
+char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr(const char *s, int c);
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+char	*split_line(const char *str, char **after_nl);
 
 #endif

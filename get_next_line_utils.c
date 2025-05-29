@@ -6,11 +6,13 @@
 /*   By: neandrie <neandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:09:33 by neandrie          #+#    #+#             */
-/*   Updated: 2025/05/27 17:46:43 by neandrie         ###   ########.fr       */
+/*   Updated: 2025/05/29 10:33:09 by neandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-size_t	ft_strlen(char *s)
+#include "get_next_line.h"
+
+size_t	ft_strlen(const char *s)
 {
 	size_t	ln;
 
@@ -29,7 +31,10 @@ char	*ft_strcpy(char *dest, const char *src)
 
 	i = 0;
 	while (src[i])
-		dest[i] = src[i++];
+	{	
+		dest[i] = src[i];
+		i++;
+	}
 	dest[i] = '\0';
 	return (dest);
 }
@@ -58,7 +63,10 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	i = 0;
 	while (s1[i])
-		dest[i] = s1[i++];
+	{
+		dest[i] = s1[i];
+		i++;
+	}
 	j = 0;
 	while (s2[j])
 		dest[i++] = s2[j++];
@@ -71,10 +79,10 @@ char	*ft_strchr(const char *s, int c)
 	while (*s)
 	{
 		if (*s == (char)c)
-			return (s);
+			return ((char *)s);
 		s++;
 	}
 	if ((char)c == '\0')
-		return (s);
+		return ((char *)s);
 	return (NULL);
 }
