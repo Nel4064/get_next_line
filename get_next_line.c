@@ -6,7 +6,7 @@
 /*   By: neandrie <neandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:09:44 by neandrie          #+#    #+#             */
-/*   Updated: 2025/05/29 12:12:43 by neandrie         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:19:12 by neandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,24 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 char	*split_line(const char *s, char **after_nl)
 {
 	int		len_before_nl;
+	int		has_nl;
 	char	*before_nl;
 
 	if (!s)
 		return (NULL);
 	len_before_nl = 0;
+	has_nl = 0;
 	while (s[len_before_nl] && s[len_before_nl] != '\n')
 		len_before_nl++;
 	if (s[len_before_nl] == '\n')
+	{
 		len_before_nl++;
+		has_nl = 1;
+	}
 	before_nl = ft_substr(s, 0, len_before_nl);
 	if (!before_nl)
 		return (NULL);
-	if (s[len_before_nl - 1] == '\n')
+	if (has_nl)
 		*after_nl = ft_strdup(s + len_before_nl);
 	else
 		*after_nl = NULL;
@@ -79,24 +84,28 @@ static char	*return_and_shift_stash(char **stash)
 
 static int	read_and_append_until_nl(int fd, char **stash)
 {
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	ssize_t	bytes_read;
 	char	*new_stash;
 
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (GNL_ERR);
 	while (!ft_strchr(*stash, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (GNL_ERR);
+			return (free(buffer), GNL_ERR);
 		if (bytes_read == 0)
-			return (GNL_EOF);
+			return (free(buffer), GNL_EOF);
 		buffer[bytes_read] = '\0';
 		new_stash = ft_strjoin(*stash, buffer);
 		if (!new_stash)
-			return (GNL_ERR);
+			return (free(buffer), GNL_ERR);
 		free(*stash);
 		*stash = new_stash;
 	}
+	free(buffer);
 	return (GNL_OK);
 }
 
@@ -112,7 +121,7 @@ char	*get_next_line(int fd)
 	if (!stash)
 		return (NULL);
 	read_status = read_and_append_until_nl(fd, &stash);
-	if (read_status == GNL_ERR || (*stash == '\0' && read_status == 0))
+	if (read_status == GNL_ERR || (read_status == GNL_EOF && *stash == '\0'))
 	{
 		free(stash);
 		stash = NULL;
@@ -121,21 +130,21 @@ char	*get_next_line(int fd)
 	return (return_and_shift_stash(&stash));
 }
 
-#include <stdio.h>
+// #include <stdio.h>
 
-int	main(void)
-{
-	int		fd;
-	char	*s;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*s;
 
-	fd = open("blabla.txt", O_RDONLY);
-	s = get_next_line(fd);
-	while (s)
-	{
-		printf("%s", s);
-		free(s);
-		s = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
-}
+// 	fd = open("blabla.txt", O_RDONLY);
+// 	s = get_next_line(fd);
+// 	while (s)
+// 	{
+// 		printf("%s", s);
+// 		free(s);
+// 		s = get_next_line(fd);
+// 	}
+// 	close(fd);
+// 	return (0);
+// }

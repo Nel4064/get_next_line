@@ -6,7 +6,7 @@
 /*   By: neandrie <neandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:09:53 by neandrie          #+#    #+#             */
-/*   Updated: 2025/05/29 12:11:29 by neandrie         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:20:07 by neandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # include <stddef.h> // for size_t
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 1024
 # endif
 
-#define GNL_OK 1
-#define GNL_EOF 0
-#define GNL_ERR -1
+# define GNL_OK 1
+# define GNL_EOF 0
+# define GNL_ERR -1
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
