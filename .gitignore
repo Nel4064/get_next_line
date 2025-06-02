@@ -1,5 +1,6 @@
 # Fichiers objets, if any
 *.o
+*.out
 
 # Config. VSCode, if any
 .vscode/
